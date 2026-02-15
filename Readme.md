@@ -130,7 +130,7 @@ Retorna todos os posts cadastrados.
 ```
 GET http://localhost:5001/v1/posts
 ```
-
+![GET](./src/assest/GetApitest%2001.png)
 ---
 
 ### 🔹 POST /posts
@@ -140,7 +140,7 @@ Cria um novo post.
 ```
 POST http://localhost:5001/v1/posts
 ```
-
+![POST](./src/assest/PostApitest%2002.png)
 Body:
 
 ```json
