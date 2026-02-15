@@ -14,6 +14,6 @@ app.use(express.json())
 app.use('/doc', swaggerUi.serve, swaggerUi.setup(swaggerDocs))
 app.use('/v1', router)
 
-export { app }
+export default app
 
 
