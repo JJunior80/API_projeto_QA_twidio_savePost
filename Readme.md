@@ -1,83 +1,91 @@
-# 🚀 Desafio - Projeto QA: TwiDIO API (Node + TypeScript)
+# 🚀 Desafio QA — TwiDIO API (Node + TypeScript)
 
-Este projeto faz parte do Bootcamp de QA e tem como objetivo desenvolver e validar uma **API REST para gerenciamento de posts**, aplicando conceitos de **arquitetura em camadas**, **testes unitários**, **testes de integração** e boas práticas com **Node.js + TypeScript**.
+Este projeto faz parte do Bootcamp de QA e foi desenvolvido como evolução do desafio proposto, com foco em:
 
----
+* Organização real de API backend
+* Correção de inconsistências estruturais
+* Testes de integração funcionando corretamente
+* Separação clara de responsabilidades
+* Resolução de conflitos comuns em ambiente TypeScript + Jest
 
-## 📚 Objetivo do Projeto
-
-Neste desafio foram aplicados:
-
-- Estruturação de API REST
-- Separação de responsabilidades (Controller, Service, Repository)
-- Persistência com TypeORM + SQLite
-- Testes unitários com Jest
-- Testes de integração com Supertest
-- Documentação com Swagger
-- Organização de projeto para portfólio
+Este repositório serve também como **guia prático de solução para dificuldades comuns encontradas no módulo**.
 
 ---
 
-## 🧠 Tecnologias e Conceitos Aplicados
+# 📚 Objetivo do Projeto
 
-- ✅ Node.js  
-- ✅ TypeScript  
-- ✅ Express  
-- ✅ TypeORM  
-- ✅ SQLite  
-- ✅ Jest  
-- ✅ Supertest  
-- ✅ Swagger  
-- ✅ Arquitetura em Camadas  
-- ✅ Boas práticas de organização de código  
+Construir e validar uma **API REST para gerenciamento de posts**, aplicando:
+
+* Arquitetura em camadas (Controller → Service → Entity)
+* Persistência com TypeORM + SQLite
+* Testes automatizados com Jest e Supertest
+* Organização profissional de projeto
 
 ---
 
-## 🗂️ Estrutura do Projeto
+# 🧠 Stack Utilizada
+
+* Node.js
+* TypeScript
+* Express
+* TypeORM
+* SQLite
+* Jest
+* Supertest
+* Swagger
+
+---
+
+# 🗂️ Estrutura Final do Projeto
 
 ```
-
-📁 projetoQA_twidio_savePost
+📁 src
 │
-├── 📁 src
-│   ├── 📁 **mocks**
-│   ├── 📁 controllers
-│   ├── 📁 services
-│   ├── 📁 repositories
-│   ├── 📁 entities
-│   ├── 📁 database
-│   │   ├── 📁 migrations
-│   │   ├── database.sqlite
-│   │   └── database.test.sqlite
-│   ├── 📁 tests
-│   ├── 📄 app.ts
-│   ├── 📄 index.ts
-│   └── 📄 routes.ts
+├── 📁 controllers
+│   ├── GetAllPostController.ts
+│   ├── SavePostController.ts
+│   └── MessageController.ts
 │
-├── 📄 package.json
-├── 📄 tsconfig.json
-└── 📄 README.md
-
-````
+├── 📁 services
+│   ├── GetAllPostService.ts
+│   └── SavePostService.ts
+│
+├── 📁 entities
+│   └── Post.ts
+│
+├── 📁 database
+│   ├── data-source.ts
+│   ├── database.sqlite
+│   ├── database.test.sqlite
+│   └── migrations/
+│
+├── 📄 app.ts
+├── 📄 routes.ts
+├── 📄 server.ts
+└── swagger.json
+│
+📁 tests
+└── posts.test.ts
+```
 
 ---
 
-## ▶️ Como Rodar o Projeto Localmente
+# ▶️ Como Rodar o Projeto
 
-### 1️⃣ Clone o repositório
+### 1️⃣ Clonar o repositório
 
 ```bash
 git clone https://github.com/seu-usuario/projetoQA_twidio_savePost.git
 cd projetoQA_twidio_savePost
-````
+```
 
-### 2️⃣ Instale as dependências
+### 2️⃣ Instalar dependências
 
 ```bash
 yarn install
 ```
 
-### 3️⃣ Rode a aplicação
+### 3️⃣ Rodar a aplicação
 
 ```bash
 yarn dev
@@ -86,129 +94,242 @@ yarn dev
 A API estará disponível em:
 
 ```
-http://localhost:5001/v1/
-```
-
-### 📄 Documentação Swagger
-
-```
-http://localhost:5001/doc
+http://localhost:5001/v1
 ```
 
 ---
 
-## 🧪 Executando os Testes
+# 🔌 Endpoints
 
-### ✅ Testes Unitários
+## 🔹 GET /v1/
 
-```bash
-yarn test:unit
-```
-
-### ✅ Testes de Integração
-
-Certifique-se que a aplicação está rodando:
-
-```bash
-yarn dev
-```
-
-Depois execute:
-
-```bash
-yarn test:integration
-```
+Health check da API
 
 ---
-
-## 🔌 Endpoints Disponíveis
-
-### 🔹 GET /posts
-
-Retorna todos os posts cadastrados.
-
-```
-GET http://localhost:5001/v1/posts
-```
 ![GET](./src/assest/GetApitest%2001.png)
+## 🔹 GET /v1/posts
+
+Lista todos os posts
+
 ---
+![GET /v1/posts](./src/assest/TestApi%2003.png)
+## 🔹 POST /v1/posts
 
-### 🔹 POST /posts
+Cria um novo post
 
-Cria um novo post.
-
-```
-POST http://localhost:5001/v1/posts
-```
-![POST](./src/assest/PostApitest%2002.png)
 Body:
 
 ```json
 {
-  "author": "author@email.com",
-  "content": "Post de exemplo"
+  "author": "email@email.com",
+  "content": "Conteúdo do post"
+}
+```
+![POST](./src/assest/PostApitest%2002.png)
+---
+
+# 🧪 Executando os Testes
+
+Este projeto utiliza **testes de integração reais**, conectando ao banco SQLite de teste.
+
+### Rodar testes:
+
+```bash
+yarn test
+```
+
+O ambiente de teste utiliza:
+
+```
+NODE_ENV=test
+```
+
+Isso faz o TypeORM usar:
+
+```
+database.test.sqlite
+```
+
+E o banco é limpo automaticamente antes de cada teste.
+
+---
+
+# ⚠️ Dificuldades Encontradas e Como Resolver
+
+Essa parte é a mais importante para quem estiver fazendo o módulo.
+
+---
+
+## ❌ 1. Erro de Import no routes
+
+Problema:
+
+```
+Argument of type 'Express' is not assignable to parameter of type 'App'
+```
+
+Causa:
+
+* Mistura de `export { app }` com `import app from ...`
+* Conflito entre named export e default export
+
+Solução aplicada:
+
+Padronizar `app.ts` como default export:
+
+```ts
+export default app
+```
+
+E importar corretamente:
+
+```ts
+import app from '../src/app'
+```
+
+---
+
+## ❌ 2. Erro do Supertest com TypeScript
+
+Erro:
+
+```
+Argument of type 'Express' is not assignable to parameter of type 'App'
+```
+
+Causa:
+
+* Conflito de tipagem entre:
+
+  * TypeScript 4.5
+  * @types/express
+  * @types/supertest
+
+Solução prática aplicada no teste:
+
+```ts
+await request(app as any)
+```
+
+Isso evita conflito de tipagem sem comprometer a execução real.
+
+---
+
+## ❌ 3. Pasta entities vazia
+
+Inicialmente não existia `Post.ts`.
+
+Isso quebrava a estrutura real do TypeORM.
+
+Correção:
+
+Criar a entidade corretamente:
+
+```ts
+@Entity('posts')
+export class Post {
+  @PrimaryGeneratedColumn('uuid')
+  post_id: string
+
+  @Column()
+  author: string
+
+  @Column()
+  content: string
+
+  @CreateDateColumn()
+  created_at: Date
 }
 ```
 
 ---
 
-## 🏗️ Arquitetura da Aplicação
+## ❌ 4. Duplicação de servidor
+
+Existiam dois arquivos:
+
+* index.ts
+* server.ts
+
+Ambos chamando `app.listen`.
+
+Correção:
+
+* Remover `index.ts`
+* Manter apenas `server.ts`
+* Inicializar banco antes de subir servidor
+
+---
+
+## ❌ 5. POST errado retornando “Cannot POST /v1”
+
+Erro comum:
+
+```
+POST http://localhost:5001/v1
+```
+
+Correto:
+
+```
+POST http://localhost:5001/v1/posts
+```
+
+---
+
+# 🏗️ Arquitetura Aplicada
 
 ### 📂 Controllers
 
-Responsáveis por receber a requisição e aplicar validações iniciais.
+Recebem requisição e retornam resposta HTTP.
 
 ### 📂 Services
 
-Contêm as regras de negócio da aplicação.
-
-### 📂 Repositories
-
-Responsáveis pela comunicação com o banco de dados.
+Contêm regra de negócio e acesso ao repositório.
 
 ### 📂 Entities
 
-Definem a estrutura das tabelas e entidades do sistema.
+Representam tabelas do banco.
 
 ### 📂 Database
 
-Configuração e gerenciamento da conexão com o banco SQLite.
+Configuração do DataSource e ambiente de teste.
 
 ---
 
-## 🎯 Desafios e Próximos Passos
+# 🎯 Melhorias Futuras
 
-* [ ] Implementar rota para listar posts por usuário
-* [ ] Implementar exclusão de post
-* [ ] Aplicar TDD nas novas funcionalidades
-* [ ] Implementar validação com class-validator
-* [ ] Adicionar tratamento global de erros
-
----
-
-## 💡 Aprendizados
-
-* Organização de API REST em camadas
-* Uso de TypeORM com SQLite
-* Configuração de testes com Jest
-* Testes de integração com Supertest
-* Resolução de conflitos de dependências em projetos Node legados
-* Padronização de ambiente com cross-env
+* [ ] Adicionar validação de dados
+* [ ] Criar GET por ID
+* [ ] Criar DELETE
+* [ ] Implementar tratamento global de erros
+* [ ] Substituir synchronize por migrations reais
+* [ ] Adicionar Docker
+* [ ] Implementar TDD nas próximas features
 
 ---
 
-## ✍️ Autor
+# 💡 Principais Aprendizados
 
-Desenvolvido por **Dev Júnior** — em transição de carreira para Desenvolvimento de Software 🚀
+* Como organizar uma API em camadas
+* Como isolar ambiente de teste
+* Como resolver conflitos de tipagem no TypeScript
+* Como limpar banco antes de cada teste
+* Como evitar duplicação de entrypoint
+* Como transformar projeto de aula em projeto de portfólio
 
-📌 LinkedIn:
-[https://www.linkedin.com/in/j-júnior-78b80a36](https://www.linkedin.com/in/j-júnior-78b80a36)
+---
 
-📌 GitHub:
+# 👨‍💻 Autor
+
+Desenvolvido por **Dev Júnior**
+Em transição de infraestrutura para desenvolvimento backend.
+
+GitHub:
 [https://github.com/JJunior80](https://github.com/JJunior80)
 
----
+LinkedIn:
+[https://www.linkedin.com/in/j-júnior-78b80a36](https://www.linkedin.com/in/j-júnior-78b80a36)
 
-## 🚀 Happy Hacking!
 
-# API_projeto_QA_twidio_savePost
+
