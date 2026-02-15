@@ -1,16 +1,11 @@
-import { getCustomRepository } from 'typeorm'
+import { AppDataSource } from '../database/data-source'
 import { Post } from '../entities/Post'
-import { PostRepository } from '../repositories/PostRepository'
 
 export class GetAllPostService {
-    private postRepository: PostRepository
+  async execute(): Promise<Post[]> {
+    const repository = AppDataSource.getRepository(Post)
 
-    constructor (postRepository: PostRepository = getCustomRepository(PostRepository)) {
-      this.postRepository = postRepository
-    }
-
-    async execute (): Promise<Post[]> {
-      const posts: Post[] = await this.postRepository.getAll()
-      return posts
-    }
+    return await repository.find()
+  }
 }
+
