@@ -9,8 +9,9 @@ const messageController = new MessageController()
 const getAllPostController = new GetAllPostController()
 const savePostController = new SavePostController()
 
-router.get('/', messageController.handle)
-router.get('/posts', getAllPostController.handle)
-router.post('/posts', savePostController.handle)
+router.get('/', messageController.handle.bind(messageController))
+router.get('/posts', getAllPostController.handle.bind(getAllPostController))
+router.post('/posts', savePostController.handle.bind(savePostController))
 
-export { router }
+export default router
+

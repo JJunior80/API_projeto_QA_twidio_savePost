@@ -1,8 +1,11 @@
 import request from 'supertest'
+import { Express } from 'express'
 import app from '../src/app'
 import { AppDataSource } from '../src/database/data-source'
 
 describe('/posts (Integration)', () => {
+
+  const server = app as Express
 
   beforeAll(async () => {
     await AppDataSource.initialize()
@@ -12,25 +15,40 @@ describe('/posts (Integration)', () => {
     await AppDataSource.destroy()
   })
 
-  it('Should return status 200 and list of posts', async () => {
-    const response = await request(app).get('/v1/posts')
+  beforeEach(async () => {
+    const entities = AppDataSource.entityMetadatas
+
+    for (const entity of entities) {
+      const repository = AppDataSource.getRepository(entity.name)
+      await repository.clear()
+    }
+  })
+
+  it('Should return status 200 and empty list initially', async () => {
+    const response = await request(server).get('/v1/posts')
 
     expect(response.status).toBe(200)
     expect(Array.isArray(response.body)).toBe(true)
+    expect(response.body.length).toBe(0)
   })
 
-  it('Should return status 201 when post saved', async () => {
-    const response = await request(app)
+  it('Should create a post and then list it', async () => {
+    await request(server)
       .post('/v1/posts')
       .send({
         author: 'user@dio.me',
         content: 'Algum conteudo da live'
       })
 
-    expect(response.status).toBe(201)
-    expect(response.body).toMatchObject({
+    const response = await request(server).get('/v1/posts')
+
+    expect(response.status).toBe(200)
+    expect(response.body.length).toBe(1)
+
+    expect(response.body[0]).toMatchObject({
       author: 'user@dio.me',
       content: 'Algum conteudo da live'
     })
   })
 })
+

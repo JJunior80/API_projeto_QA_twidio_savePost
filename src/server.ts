@@ -1,7 +1,16 @@
+import { AppDataSource } from './database/data-source'
 import app from './app'
 
-const PORT = 5001
+const PORT = process.env.PORT || 5001
 
-app.listen(PORT, () => {
-  console.log(`🚀 Server rodando em http://localhost:${PORT}`)
-})
+AppDataSource.initialize()
+  .then(() => {
+    app.listen(PORT, () => {
+      console.log(`🚀 Server rodando em http://localhost:${PORT}/v1`)
+    })
+  })
+  .catch((error) => {
+    console.error('Erro ao iniciar banco:', error)
+  })
+
+

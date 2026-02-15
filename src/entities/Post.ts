@@ -1,8 +1,7 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm'
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn } from 'typeorm'
 
 @Entity('posts')
 export class Post {
-
   @PrimaryGeneratedColumn('uuid')
   post_id: string
 
@@ -11,4 +10,8 @@ export class Post {
 
   @Column()
   content: string
+
+  @CreateDateColumn()
+  created_at: Date
 }
+

@@ -1,3 +1,4 @@
+import { Repository } from 'typeorm'
 import { AppDataSource } from '../database/data-source'
 import { Post } from '../entities/Post'
 
@@ -7,17 +8,24 @@ interface IRequest {
 }
 
 export class SavePostService {
-  async execute({ author, content }: IRequest): Promise<Post> {
-    const repository = AppDataSource.getRepository(Post)
+  private repository: Repository<Post>
 
-    const post = repository.create({
+  constructor(
+    repository: Repository<Post> = AppDataSource.getRepository(Post)
+  ) {
+    this.repository = repository
+  }
+
+  async execute({ author, content }: IRequest): Promise<Post> {
+    const post = this.repository.create({
       author,
       content
     })
 
-    await repository.save(post)
+    await this.repository.save(post)
 
     return post
   }
 }
+
 
