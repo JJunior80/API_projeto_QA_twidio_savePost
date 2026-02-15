@@ -1,9 +1,9 @@
 import { Request, Response } from 'express'
 
-class MessageController {
-  async handle (request: Request, response: Response) {
-    return response.status(200).json({ message: 'Wellcome to TwiDio' })
+export class MessageController {
+  async handle(request: Request, response: Response) {
+    return response.json({
+      message: 'API TwiDIO funcionando 🚀'
+    })
   }
 }
-
-export { MessageController }
