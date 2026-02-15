@@ -1,11 +1,8 @@
 import request from 'supertest'
-import { Express } from 'express'
 import app from '../src/app'
 import { AppDataSource } from '../src/database/data-source'
 
 describe('/posts (Integration)', () => {
-
-  const server = app as Express
 
   beforeAll(async () => {
     await AppDataSource.initialize()
@@ -25,7 +22,7 @@ describe('/posts (Integration)', () => {
   })
 
   it('Should return status 200 and empty list initially', async () => {
-    const response = await request(server).get('/v1/posts')
+    const response = await request(app as any).get('/v1/posts')
 
     expect(response.status).toBe(200)
     expect(Array.isArray(response.body)).toBe(true)
@@ -33,14 +30,14 @@ describe('/posts (Integration)', () => {
   })
 
   it('Should create a post and then list it', async () => {
-    await request(server)
+    await request(app as any)
       .post('/v1/posts')
       .send({
         author: 'user@dio.me',
         content: 'Algum conteudo da live'
       })
 
-    const response = await request(server).get('/v1/posts')
+    const response = await request(app as any).get('/v1/posts')
 
     expect(response.status).toBe(200)
     expect(response.body.length).toBe(1)
